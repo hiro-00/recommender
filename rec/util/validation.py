@@ -20,7 +20,7 @@ def _get_test_indices(num_samples, n_fold, shuffle):
         start += fold_size
 
 
-for train, test in kfold(10,5):
-    print(train)
-    print(test)
-    print("--")
+def mask_rmse(ratings, predicted):
+    valid_num = np.count_nonzero(ratings != -1)
+    predicted[ratings == -1] = -1
+    return np.sqrt(np.sum(np.square((ratings - predicted))) / valid_num)
