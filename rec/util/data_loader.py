@@ -6,14 +6,14 @@ class MovieLens():
     def __init__(self, dataset):
         path = os.path.dirname(__file__) + "/../../data/" + dataset + "/ratings.dat"
         self._data = np.loadtxt(path, delimiter="::", dtype=int)
-        self._num_user = len(np.unique(self._data[:,0]))
-        self._num_movie = np.max(self._data[:,1])#len(np.unique(self._data[:,1]))
+        self._num_user = len(np.unique(self._data[:,0])) + 1
+        self._num_movie = np.max(self._data[:,1]) + 1
 
     def get_matrix(self, indices):
-        result = np.full((self._num_user, self._num_movie), -1)
+        rating = np.full((self._num_user, self._num_movie), -1)
         for d in self._data[indices]:
-            result[d[0]-1][d[1]-1] = d[2]
-        return result
+            rating[d[0]][d[1]] = d[2]
+        return rating
 
     def get_list(self, indices):
         return self._data[indices, 0:3]
@@ -27,6 +27,7 @@ class MovieLens():
 
 
 test = MovieLens("ml-100k")
+print(test._data)
 train_fold=[0,1,2,3]
 test_fold=[4,5,6]
 train_array = test.get_matrix(train_fold)
