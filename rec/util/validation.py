@@ -24,3 +24,10 @@ def mask_rmse(ratings, predicted):
     valid_num = np.count_nonzero(ratings != -1)
     predicted[ratings == -1] = -1
     return np.sqrt(np.sum(np.square((ratings - predicted))) / valid_num)
+
+def list_rmse(rating_list, predicted):
+    rmse = 0
+    for rating in rating_list:
+        #print("{} {}".format(rating[2], predicted[rating[0]-1][rating[1]-1]))
+        rmse += np.square(rating[2] - predicted[rating[0]-1][rating[1]-1])
+    return np.sqrt(rmse / len(rating_list))
