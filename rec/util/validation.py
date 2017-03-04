@@ -31,3 +31,6 @@ def list_rmse(rating_list, predicted):
         #print("{} {}".format(rating[2], predicted[rating[0]-1][rating[1]-1]))
         rmse += np.square(rating[2] - predicted[rating[0]][rating[1]])
     return np.sqrt(rmse / len(rating_list))
+
+def rmse(a, b):
+    return np.sqrt(np.sum(np.square(a-b)) / a.shape[0])
