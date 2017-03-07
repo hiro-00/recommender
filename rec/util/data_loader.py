@@ -15,7 +15,9 @@ class MovieLens():
             rating[d[0]][d[1]] = d[2]
         return rating
 
-    def get_list(self, indices):
+    def get_list(self, indices = None):
+        if indices == None:
+            return self._data[:, 0:3]
         return self._data[indices, 0:3]
 
     def get_sample_num(self):

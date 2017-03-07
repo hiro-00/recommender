@@ -24,4 +24,17 @@ def eval_pmf():
         print("--")
         print(rmse(test[:,2], predicted))
         break
-eval_pmf()
+
+def eval_bmpf():
+    from rec.cf.bpmf import Bpmf
+    movie_lens = MovieLens("ml-100k")
+    pmf = Bpmf(movie_lens.get_num_user(), movie_lens.get_num_item(), 10)
+    train = movie_lens.get_list()
+    pmf.fit(train, train.shape[0]/10, 3000)
+    '''
+    for train_index, test_index in kfold(movie_lens.get_sample_num(), 100):
+        pmf = Bpmf(movie_lens.get_num_user(), movie_lens.get_num_item(), 10)
+        train = movie_lens.get_list(train_index)
+        pmf.fit(train, train.shape[0]/10, 3000)
+    '''
+eval_bmpf()

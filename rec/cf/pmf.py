@@ -34,8 +34,8 @@ class Pmf():
         error = rating_list[:,2] - (np.sum(self._user[user_index, :] * self._item[item_index,:], axis=1) + mean_rating)
         #print(error[0:10])
         #print(np.sum(self._user[rating_list[:,0],:], axis=1).shape)
-        dr_du = -error[:, np.newaxis] * self._item[item_index,:] + self._lambda * self._user[user_index,:]
-        dr_di = -error[:, np.newaxis] * self._user[user_index,:] + self._lambda * self._item[item_index,:]
+        dr_du = -error[:, np.newaxis] * self._item[item_index,:] + self._lambda * np.abs(self._user[user_index,:])
+        dr_di = -error[:, np.newaxis] * self._user[user_index,:] + self._lambda * np.abs(self._item[item_index,:])
 
         #print(dr_du[0:10])
         #print("--")
