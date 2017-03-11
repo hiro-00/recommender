@@ -15,11 +15,11 @@ def eval_autorec():
 def eval_pmf():
     from rec.cf.pmf import Pmf
     movie_lens = MovieLens("ml-100k")
-    for train_index, test_index in kfold(movie_lens.get_sample_num(), 5):
-        pmf = Pmf(movie_lens.get_num_user(), movie_lens.get_num_item(), 5)
-        train = movie_lens.get_list(train_index)
+    for train_index, test_index in kfold(len(movie_lens), 5):
+        pmf = Pmf(movie_lens.num_user, movie_lens.num_item, 5)
+        train = movie_lens[train_index]
         pmf.fit(train, train.shape[0]/10, 300)
-        test = movie_lens.get_list(test_index)
+        test = movie_lens[test_index]
         predicted = pmf.predict(test)
         print("--")
         print(rmse(test[:,2], predicted))
@@ -28,13 +28,8 @@ def eval_pmf():
 def eval_bmpf():
     from rec.cf.bpmf import Bpmf
     movie_lens = MovieLens("ml-100k")
-    pmf = Bpmf(movie_lens.get_num_user(), movie_lens.get_num_item(), 10)
-    train = movie_lens.get_list()
-    pmf.fit(train, train.shape[0]/10, 3000)
-    '''
-    for train_index, test_index in kfold(movie_lens.get_sample_num(), 100):
-        pmf = Bpmf(movie_lens.get_num_user(), movie_lens.get_num_item(), 10)
-        train = movie_lens.get_list(train_index)
-        pmf.fit(train, train.shape[0]/10, 3000)
-    '''
+    pmf = Bpmf(movie_lens.num_user, movie_lens.num_item, 10)
+    train = movie_lens
+    pmf.fit(train, 3000)
+
 eval_bmpf()

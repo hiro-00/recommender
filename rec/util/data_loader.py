@@ -1,4 +1,4 @@
-import pandas as pd
+import scipy.sparse as sparse
 import numpy as np
 import os
 
@@ -15,30 +15,38 @@ class MovieLens():
             rating[d[0]][d[1]] = d[2]
         return rating
 
+    def get_sparse(self, indices = None):
+        return sparse.csr_matrix((self._data[:,2],
+                                  (self._data[:,0], self._data[:,1])),
+                                 shape=(self._num_user, self._num_movie))
+
     def get_list(self, indices = None):
         if indices == None:
             return self._data[:, 0:3]
         return self._data[indices, 0:3]
 
-    def get_sample_num(self):
-        return len(self._data)
 
-    def get_sparse_array(self):
-        pass
-
-    def get_num_user(self):
+    @property
+    def num_user(self):
         return self._num_user
 
-    def get_num_item(self):
+    @property
+    def num_item(self):
         return self._num_movie
+
+    def __len__(self):
+        return len(self._data)
+
+    def __getitem__(self, position):
+        return self._data[position]
 
 test = MovieLens("ml-100k")
 #print(test._data)
 train_fold=[0,1,2,3]
 test_fold=[4,5,6]
 train_array = test.get_matrix(train_fold)
-print(test.get_list(test_fold))
-print(test.get_list(test_fold)[:,1])
+print(test[test_fold])
+print(test[test_fold][:,1])
 #rating = test.rating_to_np()
 #rating[rating != -1]=1
 #rating[rating == -1]=0
