@@ -1,8 +1,18 @@
+"""Bayesian Probabilistic Matrix Factorization
+
+Reference:
+    Bayesian Probabilistic Matrix Factorization using Markov Chain Monte Carlo
+    R. Salakhutdinov and A.Mnih.
+    http://www.cs.toronto.edu/~rsalakhu/papers/bpmf.pdf
+    http://www.utstat.toronto.edu/~rsalakhu/code_BPMF/bayespmf.m
+"""
+
 import numpy as np
 import scipy.sparse as sparse
 from rec.util.validation import  rmse
 from numpy.linalg import inv, cholesky
 from scipy.stats import wishart, norm
+
 
 class Bpmf():
     class FeatureMatrix():
@@ -56,18 +66,6 @@ class Bpmf():
         self._alpha = alpha
         self._gibbs_iter = gibbs_iter
         self._mean_rating = None
-
-    def fit(self, rating_list, batch_size, epoch):
-        self._mean_rating = np.mean(rating_list[:,2])
-        rating_matrix = np.zeros((self._num_user,self._num_item))
-        for rating in rating_list:
-            rating_matrix[rating[0]][rating[1]] = rating[2] - self._mean_rating
-        predicted = self.predict(rating_list, self._mean_rating)
-        print("rmse:{}",rmse(rating_list[:, 2], predicted))
-        for _ in range(epoch):
-            self._fit(rating_list, rating_matrix)
-            predicted = self.predict(rating_list, self._mean_rating)
-            print("epoch:{}, rmse:{}", _, rmse(rating_list[:, 2], predicted))
 
     def _fit(self, csr, csc):
         for _ in range(self._gibbs_iter):

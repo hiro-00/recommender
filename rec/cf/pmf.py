@@ -1,3 +1,12 @@
+"""Probabilistic Matrix Factorization
+
+Reference:
+    Probabilistic Matrix Factorization
+    R. Salakhutdinov and A.Mnih.
+    https://papers.nips.cc/paper/3208-probabilistic-matrix-factorization.pdf
+    http://www.utstat.toronto.edu/~rsalakhu/code_BPMF/pmf.m
+"""
+
 import numpy as np
 from rec.util.validation import  rmse
 
@@ -32,13 +41,9 @@ class Pmf():
         item_index = rating_list[:,1]
         mean_rating = np.mean(rating_list[:, 2]) #average is better?
         error = rating_list[:,2] - (np.sum(self._user[user_index, :] * self._item[item_index,:], axis=1) + mean_rating)
-        #print(error[0:10])
-        #print(np.sum(self._user[rating_list[:,0],:], axis=1).shape)
+
         dr_du = -error[:, np.newaxis] * self._item[item_index,:] + self._lambda * np.abs(self._user[user_index,:])
         dr_di = -error[:, np.newaxis] * self._user[user_index,:] + self._lambda * np.abs(self._item[item_index,:])
-
-        #print(dr_du[0:10])
-        #print("--")
 
         user_grad = np.zeros((self._num_user, self._num_feature))
         item_grad = np.zeros((self._num_item, self._num_feature))
@@ -47,11 +52,8 @@ class Pmf():
             user_grad[rating_list[i][0]] += dr_du[i,:]
             item_grad[rating_list[i][1]] += dr_di[i,:]
 
-        #print(user_grad[0:10])
-        self._user_inc = self._momentum * self._user_inc + self._learning_rate * user_grad / rating_list.shape[0]#np.maximum(1, rating_user_count)[:, np.newaxis]
-        self._item_inc = self._momentum * self._item_inc + self._learning_rate * item_grad / rating_list.shape[0]#np.maximum(1, rating_item_count)[:, np.newaxis]
-
-        #print(self._user_inc[0:10])
+        self._user_inc = self._momentum * self._user_inc + self._learning_rate * user_grad / rating_list.shape[0]
+        self._item_inc = self._momentum * self._item_inc + self._learning_rate * item_grad / rating_list.shape[0]
 
         self._user = self._user - self._user_inc
         self._item = self._item - self._item_inc
@@ -60,9 +62,3 @@ class Pmf():
         if mean_rating == None:
             mean_rating = np.mean(rating_list[:,2])
         return np.sum(self._user[rating_list[:,0],:] * self._item[rating_list[:,1],:], axis=1) + mean_rating
-
-    '''
-     Need to add mean_rating
-    def gen_matrix(self):
-        return np.dot(self._user, np.transpose(self._item))
-    '''
