@@ -1,3 +1,11 @@
+machine:
+    python:
+        version: 3.4.3
+
+dependencies:
+    - pip install -r ./requirements.txt
+    - export PYTHONPATH=${PYTHONPATH}:${HOME}/rec/rec
+
 test:
     override:
         - pytest
