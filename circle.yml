@@ -4,6 +4,8 @@ machine:
 
 dependencies:
     pre:
+        - sudo apt-get update; sudo apt-get install wget unzip build-essential
+        - sudo apt-get install libblas-dev liblapack-dev libatlas-base-dev
         - pip install -r ./requirements.txt
         - export PYTHONPATH=${PYTHONPATH}:${HOME}/rec/rec
 
