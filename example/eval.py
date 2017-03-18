@@ -30,6 +30,6 @@ def eval_bmpf():
     movie_lens = MovieLens("ml-100k")
     pmf = Bpmf(movie_lens.num_user, movie_lens.num_item, 10)
     train = movie_lens
-    pmf.fit(train, 3000)
+    pmf.fit(train, 3)
 
 eval_bmpf()

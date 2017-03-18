@@ -8,6 +8,7 @@ def kfold(num_samples, n_fold, shuffle = True):
         train_index = indices[test_mask]
         yield train_index, test_index
 
+
 def _get_test_indices(num_samples, n_fold, shuffle):
     indices = np.arange(num_samples)
     if shuffle:
@@ -31,6 +32,7 @@ def list_rmse(rating_list, predicted):
         #print("{} {}".format(rating[2], predicted[rating[0]-1][rating[1]-1]))
         rmse += np.square(rating[2] - predicted[rating[0]][rating[1]])
     return np.sqrt(rmse / len(rating_list))
+
 
 def rmse(a, b):
     return np.sqrt(np.sum(np.square(a-b)) / a.shape[0])
