@@ -2,12 +2,19 @@ import scipy.sparse as sparse
 import numpy as np
 import os
 
+
 class MovieLens():
-    def __init__(self, dataset):
-        path = os.path.dirname(__file__) + "/../../data/" + dataset + "/ratings.dat"
-        self._data = np.loadtxt(path, delimiter="::", dtype=int)
+    def __init__(self, dataset, row_num = None):
+        if dataset == "ml-100k":
+            path = os.path.dirname(__file__) + "/../../data/" + dataset + "/u.data"
+            self._data = np.loadtxt(path, delimiter="\t", dtype=int)
+        else:
+            path = os.path.dirname(__file__) + "/../../data/" + dataset + "/ratings.dat"
+            self._data = np.loadtxt(path, delimiter="::", dtype=int)
         self._num_user = len(np.unique(self._data[:,0])) + 1
         self._num_movie = np.max(self._data[:,1]) + 1
+        if row_num is not None:
+            self._data = self._data[:row_num]
 
     def get_matrix(self, indices):
         rating = np.full((self._num_user, self._num_movie), -1)

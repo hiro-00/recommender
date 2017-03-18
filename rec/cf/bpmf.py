@@ -88,8 +88,8 @@ class Bpmf():
             print("epoch:{}, rmse:{}", _, rmse(rating_list[:, 2], predicted))
 
     def predict(self, rating_list, mean_rating = None):
-        if mean_rating == None:
-            np.mean(rating_list[:, 2])
+        if mean_rating is None:
+            mean_rating = np.mean(rating_list[:, 2])
         pred = np.sum(self._user.feature_matrix[rating_list[:, 0], :] * self._item.feature_matrix[rating_list[:, 1], :], axis=1) + mean_rating
         pred[pred > 5] = 5
         pred[pred < 1] = 1

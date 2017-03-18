@@ -39,7 +39,7 @@ class Pmf():
     def _fit(self, rating_list):
         user_index = rating_list[:,0]
         item_index = rating_list[:,1]
-        mean_rating = np.mean(rating_list[:, 2]) #average is better?
+        mean_rating = np.mean(rating_list[:, 2])
         error = rating_list[:,2] - (np.sum(self._user[user_index, :] * self._item[item_index,:], axis=1) + mean_rating)
 
         dr_du = -error[:, np.newaxis] * self._item[item_index,:] + self._lambda * np.abs(self._user[user_index,:])
@@ -59,6 +59,6 @@ class Pmf():
         self._item = self._item - self._item_inc
 
     def predict(self, rating_list, mean_rating = None):
-        if mean_rating == None:
+        if mean_rating is None:
             mean_rating = np.mean(rating_list[:,2])
         return np.sum(self._user[rating_list[:,0],:] * self._item[rating_list[:,1],:], axis=1) + mean_rating

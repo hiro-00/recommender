@@ -13,22 +13,26 @@ class NeighborhoodModel():
 
     def fill(self, rating_matrix):
         result = rating_matrix.copy()
-        for u_index, u_column in enumerate(rating_matrix):
-            u_average = u_column[u_column!=-1].mean()
+        for u_index, u_row in enumerate(rating_matrix):
+            u_mean = u_row[u_row!=-1].mean()
             '''
             TODO: If average_rating==-1, use global average
             '''
             similarity_sum = 0
             predicted = np.zeros(rating_matrix.shape[1])
-            for v_index, v_column in enumerate(rating_matrix):
+            for v_index, v_row in enumerate(rating_matrix):
                 if u_index == v_index:
                     continue
-                v_average = v_column[v_column!=-1].mean()
-                similarity = self.similarity(u_column, v_column)
-                predicted[v_column!=-1] += similarity * (v_average - v_column[v_column!=-1])
-                similarity_sum += similarity
-            predicted /= similarity_sum
-            result[u_index][result[u_index]==-1] = u_average + predicted[result[u_index]==-1]
+                v_average = v_row[v_row!=-1].mean()
+                try:
+                    similarity = self.similarity(u_row, v_row)
+                    predicted[v_row!=-1] += similarity * (v_average - v_row[v_row!=-1])
+                    similarity_sum += similarity
+                except:
+                    pass
+            if similarity_sum != 0:
+                predicted /= similarity_sum
+            result[u_index][result[u_index]==-1] = u_mean + predicted[result[u_index]==-1]
 
         return result
 

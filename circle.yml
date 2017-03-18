@@ -1,0 +1,17 @@
+machine:
+    environment:
+        PYTHONPATH: ${PYTHONPATH}:${HOME}/rec/rec
+    python:
+        version: 3.4.3
+
+dependencies:
+    pre:
+        - sudo apt-get update; sudo apt-get install wget unzip build-essential xz-utils python-dev
+        - sudo apt-get install -y libfreetype6-dev libxft-dev libblas-dev liblapack-dev libatlas-base-dev gfortran
+        - sudo pip install appdirs numpy packaging  pytest pyparsing scipy
+        - wget http://files.grouplens.org/datasets/movielens/ml-100k.zip -P ${HOME}/rec/data
+        - unzip ${HOME}/rec/data/ml-100k.zip -d ${HOME}/rec/data/
+
+test:
+    override:
+        - pytest
