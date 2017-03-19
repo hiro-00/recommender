@@ -11,7 +11,7 @@ dependencies:
         - sudo pip install appdirs numpy packaging  pytest pyparsing scipy
         - wget http://files.grouplens.org/datasets/movielens/ml-100k.zip -P ${HOME}/rec/rec/data
         - unzip ${HOME}/rec/rec/data/ml-100k.zip -d ${HOME}/rec/rec/data/
-
+        - mv ${HOME}/rec/rec/data/ml-100k/u.data ${HOME}/rec/rec/data/ml-100k/ratings.dat
 test:
     override:
         - pytest
