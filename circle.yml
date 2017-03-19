@@ -1,4 +1,6 @@
 machine:
+    environment:
+        PYTHONPATH: ${PYTHONPATH}:${HOME}/rec/rec
     python:
         version: 3.4.3
 
@@ -10,6 +12,5 @@ dependencies:
 
 test:
     pre:
-        - export PYTHONPATH=${PYTHONPATH}:${HOME}/rec/rec
     override:
         - pytest
