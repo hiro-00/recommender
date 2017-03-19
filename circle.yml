@@ -5,7 +5,7 @@ machine:
 dependencies:
     pre:
         - sudo apt-get update; sudo apt-get install wget unzip build-essential xz-utils python-dev
-        - sudo apt-get install libfreetype6-dev libxft-dev libblas-dev liblapack-dev libatlas-base-dev gfortran
+        - sudo apt-get install -y python3-pip libfreetype6-dev libxft-dev libblas-dev liblapack-dev libatlas-base-dev gfortran
         - sudo pip3 install -r ./requirements.txt
         - export PYTHONPATH=${PYTHONPATH}:${HOME}/rec/rec
 
