@@ -11,4 +11,4 @@ A python implementation of some recommender algorithms
   * http://www.cs.toronto.edu/~rsalakhu/papers/bpmf.pdf
 
 * SVD++: Factorization Meets the Neighborhood: a Multifaceted Collaborative Filtering Model
-  * https://github.com/hiro-00/recommender/blob/master/rec/cf/svd_pp.py
+  * http://www.cs.rochester.edu/twiki/pub/Main/HarpSeminar/Factorization_Meets_the_Neighborhood-_a_Multifaceted_Collaborative_Filtering_Model.pdf
